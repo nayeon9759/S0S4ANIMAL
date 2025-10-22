@@ -10,16 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let localSubmissions = []; // 서버에서 불러온 전체 데이터
   
-  // ⭐️ 모든 설문 항목 레이블 정의 (최신 폼의 필드 이름)
+  // ⭐️ 모든 설문 항목 레이블 정의 (레이블 중복/혼선 문제 해결)
   const keyMap = {
     hasPet: "반려동물 보유",
     region: "지역",
     regionOther: "직접 입력 지역",
-    priorityCriteria: "병원 선택 기준", // ⭐️ 표시할 항목
-    concernAndFeature: "최대 지불 의향",
+    priorityCriteria: "병원 선택 기준", 
+    concernAndFeature: "응급 상황 불만/필요 기능", // ⭐️ 3번째 항목
     priority1: "1순위 정보",
     priority2: "2순위 정보",
-    priceRange: "불만/필요 기능" // ⭐️ 표시할 항목
+    priceRange: "최대 지불 의향" // ⭐️ 2번째 항목
   };
   
   // ⭐️ 이전/구식 필드 이름을 최신 필드 이름에 매핑
@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
     type: "hasPet"
   };
   
-  // ⭐️ 표시할 항목만 필터링하는 배열 (요청에 따라 2개만 남김)
-  const displayKeys = ["priorityCriteria", "priceRange"];
+  // ⭐️ 최종 표시할 항목 3개 (레이블 중복 제거)
+  const displayKeys = ["priorityCriteria", "priceRange", "concernAndFeature"];
 
   /**
    * 1. 서버에서 최신 데이터를 가져와 localSubmissions를 갱신하고, 화면을 다시 그리는 핵심 함수
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.className = "record fade-in"; // ⭐️ 애니메이션 클래스 추가
       card.style.setProperty('--delay', `${index * 0.05}s`); // ⭐️ 순차 애니메이션 딜레이
 
-      // ⭐️ displayKeys에 정의된 2개 항목만 순회
+      // ⭐️ displayKeys에 정의된 3개 항목만 순회
       let html = displayKeys
           .map(k => {
               const label = keyMap[k];
